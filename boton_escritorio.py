@@ -1,26 +1,41 @@
-import sys
-import random
 from PyQt5.QtWidgets import QApplication, QPushButton, QWidget
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
+import sys, random
 
-class Escurridizo(QWidget):
+class BotonCansado(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnBottomHint | Qt.Tool)
         self.setAttribute(Qt.WA_TranslucentBackground)
-        self.setGeometry(0, 0, 1920, 1080)  # Ajusta a la resolución de tu pantalla
+        self.setGeometry(0, 0, 1920, 1080)
 
         self.button = QPushButton("Haz clic aquí", self)
         self.button.resize(140, 50)
         self.button.move(500, 300)
         self.button.setStyleSheet("font-size: 16px; background-color: #ff7675; color: white; border-radius: 10px;")
-
-        self.button.installEventFilter(self)
         self.button.clicked.connect(lambda: self.button.setText("¡Lo lograste!"))
 
+        self.energy = 10  # número de veces que puede huir antes de cansarse
+        self.evadiendo = True
+        self.descansando = False
+
+        self.button.installEventFilter(self)
+
+        self.timer_recuperacion = QTimer()
+        self.timer_recuperacion.setSingleShot(True)
+        self.timer_recuperacion.timeout.connect(self.recuperar_energia)
+
     def eventFilter(self, obj, event):
-        if obj == self.button and event.type() == event.Enter:
+        if obj == self.button and event.type() == event.Enter and self.evadiendo and not self.descansando:
+            self.energy -= 1
             self.mover_boton()
+
+            if self.energy <= 0:
+                self.evadiendo = False
+                self.descansando = True
+                self.button.setText("... agotado 😩")
+                self.timer_recuperacion.start(5000)  # 5 segundos de descanso
+
         return super().eventFilter(obj, event)
 
     def mover_boton(self):
@@ -30,7 +45,13 @@ class Escurridizo(QWidget):
         new_y = random.randint(0, max_y)
         self.button.move(new_x, new_y)
 
+    def recuperar_energia(self):
+        self.energy = 10
+        self.evadiendo = True
+        self.descansando = False
+        self.button.setText("Haz clic aquí")
+
 app = QApplication(sys.argv)
-w = Escurridizo()
+w = BotonCansado()
 w.show()
 sys.exit(app.exec_())
