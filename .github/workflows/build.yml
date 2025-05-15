@@ -2,29 +2,25 @@ name: Compilar ejecutable
 
 on:
   push:
-    branches: [ main,master ]
+    branches: [ main, master ]
 
 jobs:
   build:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-
       - name: Configurar Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
-
       - name: Instalar dependencias
         run: |
           pip install pyqt5 pyinstaller
-
       - name: Compilar ejecutable
         run: |
           pyinstaller --onefile --noconsole boton_escritorio.py
-
       - name: Subir artefacto
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v2
         with:
           name: boton_escritorio
           path: dist/boton_escritorio.exe
