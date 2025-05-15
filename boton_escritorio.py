@@ -8,7 +8,7 @@ class Escurridizo(QWidget):
         super().__init__()
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnBottomHint | Qt.Tool)
         self.setAttribute(Qt.WA_TranslucentBackground)
-        self.setGeometry(0, 0, 1920, 1080)  # Ajusta a tu resolución
+        self.setGeometry(0, 0, 1920, 1080)  # Ajusta a la resolución de tu pantalla
 
         self.button = QPushButton("Haz clic aquí", self)
         self.button.resize(140, 50)
