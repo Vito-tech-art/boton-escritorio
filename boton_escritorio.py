@@ -13,9 +13,9 @@ class BotonCansado(QWidget):
         self.button.resize(140, 50)
         self.button.move(500, 300)
         self.button.setStyleSheet("font-size: 16px; background-color: #ff7675; color: white; border-radius: 10px;")
-        self.button.clicked.connect(lambda: self.button.setText("¡Lo lograste!"))
+        self.button.clicked.connect(self.finalizar)
 
-        self.energy = 10  # número de veces que puede huir antes de cansarse
+        self.energy = 10
         self.evadiendo = True
         self.descansando = False
 
@@ -24,6 +24,14 @@ class BotonCansado(QWidget):
         self.timer_recuperacion = QTimer()
         self.timer_recuperacion.setSingleShot(True)
         self.timer_recuperacion.timeout.connect(self.recuperar_energia)
+
+        # Botón de cerrar (inicialmente oculto)
+        self.close_button = QPushButton("X", self)
+        self.close_button.setStyleSheet("background-color: #d63031; color: white; border: none; font-weight: bold; border-radius: 12px;")
+        self.close_button.resize(30, 30)
+        self.close_button.move(self.width() - 40, 20)
+        self.close_button.hide()
+        self.close_button.clicked.connect(self.close)
 
     def eventFilter(self, obj, event):
         if obj == self.button and event.type() == event.Enter and self.evadiendo and not self.descansando:
@@ -34,7 +42,7 @@ class BotonCansado(QWidget):
                 self.evadiendo = False
                 self.descansando = True
                 self.button.setText("... agotado 😩")
-                self.timer_recuperacion.start(5000)  # 5 segundos de descanso
+                self.timer_recuperacion.start(5000)
 
         return super().eventFilter(obj, event)
 
@@ -50,6 +58,10 @@ class BotonCansado(QWidget):
         self.evadiendo = True
         self.descansando = False
         self.button.setText("Haz clic aquí")
+
+    def finalizar(self):
+        self.button.setText("¡Lo lograste!")
+        self.close_button.show()
 
 app = QApplication(sys.argv)
 w = BotonCansado()
