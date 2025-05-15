@@ -17,8 +17,7 @@ class BotonCansado(QWidget):
             background-color: #ff7675; 
             color: white; 
             border-radius: 10px;
-            padding-right: 25px; /* espacio para la X */
-            position: relative;
+            padding-right: 30px; /* espacio para la X */
         """)
         self.button.clicked.connect(self.finalizar)
 
@@ -32,29 +31,44 @@ class BotonCansado(QWidget):
         self.timer_recuperacion.setSingleShot(True)
         self.timer_recuperacion.timeout.connect(self.recuperar_energia)
 
-        # Crear un botón pequeño "X" dentro del botón principal
-        self.close_button = QPushButton("×", self.button)
-        self.close_button.setGeometry(QRect(self.button.width() - 25, 5, 20, 20))
+        # Botón "X" pequeño dentro del botón principal
+        self.close_button = QPushButton("×", self)
+        self.close_button.setFixedSize(25, 25)
         self.close_button.setStyleSheet("""
             background-color: #d63031; 
             color: white; 
             border: none; 
             font-weight: bold; 
-            border-radius: 10px;
+            border-radius: 12px;
         """)
         self.close_button.hide()
         self.close_button.clicked.connect(self.close)
 
-    def eventFilter(self, obj, event):
-        if obj == self.button and event.type() == event.Enter and self.evadiendo and not self.descansando:
-            self.energy -= 1
-            self.mover_boton()
+        self.actualizar_posicion_close_button()
 
-            if self.energy <= 0:
-                self.evadiendo = False
-                self.descansando = True
-                self.button.setText("... agotado 😩")
-                self.timer_recuperacion.start(5000)
+    def actualizar_posicion_close_button(self):
+        # Posiciona la "X" en la esquina superior derecha del botón principal
+        btn_pos = self.button.pos()
+        x = btn_pos.x() + self.button.width() - self.close_button.width() - 5
+        y = btn_pos.y() + 5
+        self.close_button.move(x, y)
+        self.close_button.raise_()  # Asegura que esté encima
+
+    def eventFilter(self, obj, event):
+        if obj == self.button:
+            if event.type() == event.Enter and self.evadiendo and not self.descansando:
+                self.energy -= 1
+                self.mover_boton()
+                self.actualizar_posicion_close_button()
+
+                if self.energy <= 0:
+                    self.evadiendo = False
+                    self.descansando = True
+                    self.button.setText("... agotado 😩")
+                    self.timer_recuperacion.start(5000)
+
+            elif event.type() == event.Move:
+                self.actualizar_posicion_close_button()
 
         return super().eventFilter(obj, event)
 
@@ -64,6 +78,7 @@ class BotonCansado(QWidget):
         new_x = random.randint(0, max_x)
         new_y = random.randint(0, max_y)
         self.button.move(new_x, new_y)
+        self.actualizar_posicion_close_button()
 
     def recuperar_energia(self):
         self.energy = 10
@@ -75,6 +90,7 @@ class BotonCansado(QWidget):
     def finalizar(self):
         self.button.setText("¡Lo lograste!")
         self.close_button.show()
+        self.actualizar_posicion_close_button()
 
 app = QApplication(sys.argv)
 w = BotonCansado()
