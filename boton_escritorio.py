@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QApplication, QPushButton, QWidget
-from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtCore import Qt, QTimer, QRect
 import sys, random
 
 class BotonCansado(QWidget):
@@ -12,7 +12,14 @@ class BotonCansado(QWidget):
         self.button = QPushButton("Haz clic aquí", self)
         self.button.resize(140, 50)
         self.button.move(500, 300)
-        self.button.setStyleSheet("font-size: 16px; background-color: #ff7675; color: white; border-radius: 10px;")
+        self.button.setStyleSheet("""
+            font-size: 16px; 
+            background-color: #ff7675; 
+            color: white; 
+            border-radius: 10px;
+            padding-right: 25px; /* espacio para la X */
+            position: relative;
+        """)
         self.button.clicked.connect(self.finalizar)
 
         self.energy = 10
@@ -25,11 +32,16 @@ class BotonCansado(QWidget):
         self.timer_recuperacion.setSingleShot(True)
         self.timer_recuperacion.timeout.connect(self.recuperar_energia)
 
-        # Botón de cerrar (inicialmente oculto)
-        self.close_button = QPushButton("X", self)
-        self.close_button.setStyleSheet("background-color: #d63031; color: white; border: none; font-weight: bold; border-radius: 12px;")
-        self.close_button.resize(30, 30)
-        self.close_button.move(self.width() - 40, 20)
+        # Crear un botón pequeño "X" dentro del botón principal
+        self.close_button = QPushButton("×", self.button)
+        self.close_button.setGeometry(QRect(self.button.width() - 25, 5, 20, 20))
+        self.close_button.setStyleSheet("""
+            background-color: #d63031; 
+            color: white; 
+            border: none; 
+            font-weight: bold; 
+            border-radius: 10px;
+        """)
         self.close_button.hide()
         self.close_button.clicked.connect(self.close)
 
@@ -58,6 +70,7 @@ class BotonCansado(QWidget):
         self.evadiendo = True
         self.descansando = False
         self.button.setText("Haz clic aquí")
+        self.close_button.hide()
 
     def finalizar(self):
         self.button.setText("¡Lo lograste!")
