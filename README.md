@@ -11,6 +11,7 @@ Este pequeño programa muestra un botón que dice "Haz clic aquí"... pero no es
 - Cuando se le acaba la energía, se **queda quieto durante 5 segundos** para descansar.
 - Luego vuelve a moverse como si nada.
 - Si logras hacer clic en él, te dice: **¡Lo lograste!**
+- Una vez que lo logras puedes hacer clic en la X para cerrar el ejecutable.
 
 ## 🛠️ Compilación automática
 
