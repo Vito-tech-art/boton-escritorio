@@ -2,7 +2,7 @@
 
 ¡Un ejecutable divertido que pone a prueba tu paciencia (y tu puntería)!
 
-Este pequeño programa muestra un botón que dice "Haz clic aquí"... pero no es tan fácil como parece. Cada vez que el ratón se acerca, el botón huye. Pero no te preocupes: como todos nosotros, el botón también se cansa. 😩
+Este pequeño programa muestra un botón escurridizo que dice "Haz clic aquí"... pero no es tan fácil como parece. Cada vez que el ratón se acerca, el botón huye. Pero, ¡no te preocupes!: como todos nosotros, el botón también se cansa... 😩
 
 ## 🧠 ¿Cómo funciona?
 
@@ -11,7 +11,7 @@ Este pequeño programa muestra un botón que dice "Haz clic aquí"... pero no es
 - Cuando se le acaba la energía, se **queda quieto durante 5 segundos** para descansar. 😩
 - Luego vuelve a moverse como si nada.
 - Si logras hacer clic en él, te dice: **¡Lo lograste!**
-- Una vez que lo logras puedes hacer clic en la X para cerrar el botón.
+- Una vez que lo logras puedes hacer clic en la X para cerrar el botón y el ejecutable.
 
 ## 🛠️ Compilación automática
 
