@@ -17,7 +17,7 @@ class BotonCansado(QWidget):
             background-color: #ff7675; 
             color: white; 
             border-radius: 10px;
-            padding-right: 30px; /* espacio para la X */
+            padding-right: 30px;
         """)
         self.button.clicked.connect(self.finalizar)
 
@@ -31,7 +31,7 @@ class BotonCansado(QWidget):
         self.timer_recuperacion.setSingleShot(True)
         self.timer_recuperacion.timeout.connect(self.recuperar_energia)
 
-        # Botón "X" pequeño dentro del botón principal
+        # Botón "X" para cerrar la app
         self.close_button = QPushButton("×", self)
         self.close_button.setFixedSize(25, 25)
         self.close_button.setStyleSheet("""
@@ -42,17 +42,16 @@ class BotonCansado(QWidget):
             border-radius: 12px;
         """)
         self.close_button.hide()
-        self.close_button.clicked.connect(self.close)
+        self.close_button.clicked.connect(self.cerrar_aplicacion)
 
         self.actualizar_posicion_close_button()
 
     def actualizar_posicion_close_button(self):
-        # Posiciona la "X" en la esquina superior derecha del botón principal
         btn_pos = self.button.pos()
         x = btn_pos.x() + self.button.width() - self.close_button.width() - 5
         y = btn_pos.y() + 5
         self.close_button.move(x, y)
-        self.close_button.raise_()  # Asegura que esté encima
+        self.close_button.raise_()
 
     def eventFilter(self, obj, event):
         if obj == self.button:
@@ -66,9 +65,6 @@ class BotonCansado(QWidget):
                     self.descansando = True
                     self.button.setText("... agotado 😩")
                     self.timer_recuperacion.start(5000)
-
-            elif event.type() == event.Move:
-                self.actualizar_posicion_close_button()
 
         return super().eventFilter(obj, event)
 
@@ -91,6 +87,9 @@ class BotonCansado(QWidget):
         self.button.setText("¡Lo lograste!")
         self.close_button.show()
         self.actualizar_posicion_close_button()
+
+    def cerrar_aplicacion(self):
+        QApplication.quit()
 
 app = QApplication(sys.argv)
 w = BotonCansado()
