@@ -1,22 +1,45 @@
-# Botón Escurridizo
+# Botón Cansado 😩
 
-Este proyecto crea una pequeña ventana sin bordes con un botón que se mueve cuando pasas el ratón por encima.
+¡Un ejecutable divertido que pone a prueba tu paciencia (y tu puntería)!
 
-## Cómo compilar
+Este pequeño programa muestra un botón que dice "Haz clic aquí"... pero no es tan fácil como parece. Cada vez que el ratón se acerca, el botón huye. Pero no te preocupes: como todos nosotros, el botón también se cansa.
 
-1. Asegúrate de tener Python 3 y pip instalados.
-2. Instala las dependencias:
+## 🧠 ¿Cómo funciona?
+
+- El botón huye cuando el cursor se acerca.
+- Tiene **10 puntos de energía**.
+- Cuando se le acaba la energía, se **queda quieto durante 5 segundos** para descansar.
+- Luego vuelve a moverse como si nada.
+- Si logras hacer clic en él, te dice: **¡Lo lograste!**
+
+## 🛠️ Compilación automática
+
+Este repositorio incluye un flujo de trabajo con **GitHub Actions** que:
+
+1. Instala las dependencias necesarias (`pyqt5` y `pyinstaller`)
+2. Compila automáticamente el archivo `boton_escritorio.py` en un `.exe`
+3. Sube el archivo ejecutable como artefacto descargable
+
+## 🚀 Ejecutable
+
+Cuando el flujo de trabajo se complete, podrás descargar el `.exe` desde la pestaña **Actions → Artifacts** en GitHub.
+
+## 📦 Requisitos
+
+Si quieres ejecutarlo localmente (sin compilar):
+
+- Python 3.x
+- PyQt5
 
 ```bash
-pip install pyqt5 pyinstaller
+pip install pyqt5
+python boton_escritorio.py
 ```
 
-3. Ejecuta PyInstaller para compilar:
+## 😄 ¿Por qué?
 
-```bash
-pyinstaller --onefile --noconsole boton_escritorio.py
-```
+Porque a veces un poco de humor en el escritorio es justo lo que necesitamos.
 
-4. El ejecutable aparecerá en la carpeta `dist/`.
+---
 
-¡Listo para usar!
+Hecho con ❤️ y un poco de cansancio.
